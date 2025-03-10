@@ -1,12 +1,15 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+Route::controller(UserController::class)->group(function (){
+    Route::get('dashboard','index')->name('dashboard')->middleware(['auth', 'verified']);
+    Route::get('chat/{id}','userChat')->name('chat');
+});
+
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
