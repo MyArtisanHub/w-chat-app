@@ -45,4 +45,13 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Summary of unreadMessages
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Message, User>
+     */
+    public function unreadMessages()
+    {
+        return $this->hasMany(Message::class, 'sender_id', 'id')->where('is_read', false);
+    }
 }
