@@ -150,7 +150,7 @@ php artisan reverb:start
 ## 🧑‍💻 Author
 
 **Your Name**  
-GitHub: [@your-username](https://github.com/your-username)
+GitHub: [@dev-sudip](https://github.com/dev-sudip)
 
 ---
 
