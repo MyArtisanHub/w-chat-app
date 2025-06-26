@@ -8,8 +8,8 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            <div class="bg-white shadow-sm sm:rounded-lg mb-15 overflow-hidden h-calc[(100vh-12rem)] scroll-smooth" id="chat-container">
-                <div class="w-full px-8 py-5 grow">
+            <div class="bg-white shadow-sm sm:rounded-lg mb-15 overflow-hidden h-calc[(100vh-12rem)] scroll-smooth">
+                <div class="w-full px-8 py-5 grow" id="chat-container">
                     @foreach ($messages as $message)
                     <!-- if sender user is not auth user then it is receiver message -->
                     @if ($message->sender->id !== auth()->user()->id)

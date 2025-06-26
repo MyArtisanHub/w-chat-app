@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Events\MessageSentEvent;
+use App\Events\UnreadMessage;
 use App\Events\UserTyping;
 use App\Models\Message;
 use App\Models\User;
@@ -63,14 +64,7 @@ class Chat extends Component
             })->get();
     }
 
-    /**
-     * Summary of userTyping
-     * @return void
-     */
-    public function userTyping()
-    {
-        broadcast(new UserTyping($this->senderId, $this->receiverId))->toOthers();
-    }
+
 
 
     public function readAllMessages()
@@ -106,11 +100,26 @@ class Chat extends Component
         // Broadcast The Message
         broadcast(new MessageSentEvent($sentMessage));
 
+        #get Unread Messages count for a user
+        $unreadMessageCount = $this->getUnreadMessagesCount();
+
+        // Broadcast Unread Message to show inactive chat notification count.
+        broadcast(new UnreadMessage($this->senderId, $this->receiverId, $unreadMessageCount))->toOthers();
+
         // reset the input form
         $this->message = null;
 
         #livewire event to scroll the last message in bottom with the input box
         $this->dispatch('messages-updated');
+    }
+
+    /**
+     * Summary of getUnreadMessagesCount
+     * @return int
+     */
+    public function getUnreadMessagesCount()
+    {
+        return Message::where('receiver_id', $this->receiverId)->where('is_read', false)->count();
     }
 
     #[On('echo-private:chat-channel.{senderId},MessageSentEvent')]
@@ -119,6 +128,15 @@ class Chat extends Component
         #convert new message to eloquent
         $newMessage = Message::find($event['message']['id'])->load('sender:id,name', 'receiver:id,name');
         $this->messages[] = $newMessage;
+    }
+
+    /**
+     * Summary of userTyping
+     * @return void
+     */
+    public function userTyping()
+    {
+        broadcast(new UserTyping($this->senderId, $this->receiverId))->toOthers();
     }
 
     /**
