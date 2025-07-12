@@ -31,7 +31,7 @@ This is a real-time chat application built with **Laravel**, using **Laravel Rev
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/laravel-chat-app.git
+git clone https://github.com/MyArtisanHub/laravel-chat-app.git
 cd laravel-chat-app
 ```
 
